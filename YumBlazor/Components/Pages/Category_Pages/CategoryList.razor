@@ -1,23 +1,24 @@
 ﻿@page "/category"
+<link rel="stylesheet" href="css/categoryList.css" />
 
 @if (isProcessing)
 {
-    <div class="position-absolute w-75 h-75 d-flex flex-column align-items-center justify-content-center bg-white">
-        <img src="~/images/loading.gif" alt="loading" />
+    <div class="CategoryList-Loading">
+        <img src="/images/loading.gif" alt="loading" />
     </div>
 }
 else
 {
-    <div class="card shadow border-0 mt-4">
-        <div class="card-header bg-black bg-gradient ml-0 py-3">
+    <div class="card shadow border-0 mt-4 CategoryList-CARD">
+        <div class="card-header bg-black bg-gradient ml-0 py-3 CategoryList-HEADER">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2">Category List</h2>
+                <h2 class="text-white py-2 CategoryList-HEADING">Category List</h2>
             </div>
         </div>
-        <div class="card-body p-4">
+        <div class="card-body p-4 CategoryList-CARD-BODY">
             <div class="row pb-3">
-                <div class="col-12 text-end">
-                    <button class="btn btn-secondary btn-lg" style="width:250px;">Add New Category</button>
+                <div class="col-12 text-end CategoryList-BUTTON-Div">
+                    <button class="btn btn-secondary btn-lg CategoryList-BUTTON" style="width:250px;">Add New Category</button>
                 </div>
             </div>
             <p>Category's List</p>
@@ -27,4 +28,17 @@ else
 
 @code {
     public bool isProcessing { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isProcessing = true;
+        await Task.Delay(2000);
+        LoadCategories();
+        isProcessing = false;
+    }
+
+    public void LoadCategories()
+    {
+        // Function
+    }
 }
