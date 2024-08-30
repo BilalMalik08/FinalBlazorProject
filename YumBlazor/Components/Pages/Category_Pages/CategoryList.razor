@@ -48,20 +48,28 @@ else
 }
 
 @code {
-    private bool isProcessing { get; set; } = false;
+    private bool isProcessing { get; set; } = true;
 
     private IEnumerable<Category> Categories = new List<Category>();
 
     protected override async Task OnInitializedAsync()
     {
-        isProcessing = true;
-        await Task.Delay(2000);
-        LoadCategories();
-        isProcessing = false;
+
     }
 
-    public void LoadCategories()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        Categories = _categoryRepository.GetAll();
+        if (firstRender)
+        {
+            await LoadCategories();
+            isProcessing = false;
+            StateHasChanged();
+        }
+        // return base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task LoadCategories()
+    {
+        Categories = await _categoryRepository.GetAllAsync();
     }
 }
