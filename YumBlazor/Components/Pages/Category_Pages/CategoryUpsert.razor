@@ -2,6 +2,7 @@
 @page "/category/update/{id:int}"
 @inject ICategoryRepository _categoryRepository
 @inject NavigationManager _navigationManager
+@inject IJSRuntime _JS
 <link rel="stylesheet" href="css/categoryUpsert.css" />
 
 @if (isProcessing)
@@ -80,11 +81,13 @@ else
         {
             // Create
             await _categoryRepository.CreateAsync(Category);
+            await _JS.ToastrSuccess("Category created successfully.");
         }
         else
         {
             // Update
             await _categoryRepository.UpdateAsync(Category);
+            await _JS.ToastrSuccess("Category updated successfully.");
         }
         isProcessing = false;
         _navigationManager.NavigateTo("category");
