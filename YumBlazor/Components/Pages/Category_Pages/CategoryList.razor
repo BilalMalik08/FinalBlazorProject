@@ -1,5 +1,6 @@
 ﻿@page "/category"
 @inject ICategoryRepository _categoryRepository
+@inject IJSRuntime _JS
 <link rel="stylesheet" href="css/categoryList.css" />
 
 <BsModal></BsModal>
@@ -40,7 +41,7 @@ else
                                 <td>@obj.Name</td>
                                 <td>
                                     <a href="@($"category/update/{obj.Id}")" class="btn btn-secondary"><i class="bi bi-pencil-square"></i> Edit</a>
-                                    <a href="" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
+                                    <a href="" class="btn btn-danger" @onclick="()=>HandleDelete(obj.Id)"><i class="bi bi-trash"></i> Delete</a>
                                 </td>
                             </tr>
                         }
@@ -53,6 +54,8 @@ else
 
 @code {
     private bool isProcessing { get; set; } = true;
+
+    private int DeleteCategoryID { get; set; } = 0;
 
     private IEnumerable<Category> Categories = new List<Category>();
 
@@ -75,5 +78,11 @@ else
     private async Task LoadCategories()
     {
         Categories = await _categoryRepository.GetAllAsync();
+    }
+
+    private void HandleDelete(int id)
+    {
+        DeleteCategoryID = id;
+        _JS.InvokeVoidAsync("ShowConfirmationModal");
     }
 }
