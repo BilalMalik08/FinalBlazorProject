@@ -35,6 +35,10 @@ else
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Price</th>
+                            <th>Special Tag</th>
+                            <th>Description</th>
+                            <th>Category</th>
                             <th>Action Buttons</th>
                         </tr>
                     </thead>
@@ -43,6 +47,10 @@ else
                         {
                             <tr>
                                 <td>@obj.Name</td>
+                                <td>@obj.Price.ToString("C")</td>
+                                <td>@obj.SpecialTag</td>
+                                <td>@obj.Description</td>
+                                <td>@obj.Category.Name</td>
                                 <td>
                                     <a href="@($"product/update/{obj.Id}")" class="btn btn-secondary"><i class="bi bi-pencil-square"></i> Edit</a>
                                     <a class="btn btn-danger" @onclick="() => HandleDelete(obj.Id)"><i class="bi bi-trash"></i> Delete</a>
