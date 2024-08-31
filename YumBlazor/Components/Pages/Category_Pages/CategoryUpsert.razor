@@ -77,18 +77,35 @@ else
     private async Task UpsertCategory()
     {
         isProcessing = true;
-        if (Category.Id == 0)
+        bool isNewCategory = Category.Id == 0;
+
+        if (isNewCategory)
         {
             // Create
-            await _categoryRepository.CreateAsync(Category);
-            await _JS.ToastrSuccess("Category created successfully.");
+            var createdCategory = await _categoryRepository.CreateAsync(Category);
+            if (createdCategory != null)
+            {
+                await _JS.ToastrSuccess("Category created successfully.");
+            }
+            else
+            {
+                await _JS.ToastrError("Failed to create category.");
+            }
         }
         else
         {
             // Update
-            await _categoryRepository.UpdateAsync(Category);
-            await _JS.ToastrSuccess("Category updated successfully.");
+            var updatedCategory = await _categoryRepository.UpdateAsync(Category);
+            if (updatedCategory != null)
+            {
+                await _JS.ToastrSuccess("Category updated successfully.");
+            }
+            else
+            {
+                await _JS.ToastrError("Failed to update category.");
+            }
         }
+
         isProcessing = false;
         _navigationManager.NavigateTo("category");
     }
