@@ -1,37 +1,37 @@
-﻿@page "/category"
-@inject ICategoryRepository _categoryRepository
+﻿@page "/product"
+@inject IProductRepository _productRepository
 @inject IJSRuntime _JS
-<link rel="stylesheet" href="css/categoryList.css" />
+<link rel="stylesheet" href="css/productList.css" />
 
 <BsModal OnModalConfirmation="ConfirmDelete_Click"
          ButtonBootstrapStyle="btn-danger"
          ButtonText="Delete"
-         Title="Are you sure you want to delete this category?">
+         Title="Are you sure you want to delete this product?">
 </BsModal>
 
 @if (isProcessing)
 {
-    <div class="CategoryList-Loading">
+    <div class="ProductList-Loading">
         <img src="/images/loading.gif" alt="loading" />
     </div>
 }
 else
 {
-    <div class="card shadow border-0 mt-4 CategoryList-CARD">
-        <div class="card-header bg-black bg-gradient ml-0 py-3 CategoryList-HEADER">
+    <div class="card shadow border-0 mt-4 ProductList-CARD">
+        <div class="card-header bg-black bg-gradient ml-0 py-3 ProductList-HEADER">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2 CategoryList-HEADING">Category List <i class="bi bi-c-square"></i></h2>
+                <h2 class="text-white py-2 ProductList-HEADING">Product List <i class="bi bi-boxes"></i></h2>
             </div>
         </div>
-        <div class="card-body p-4 CategoryList-CARD-BODY">
+        <div class="card-body p-4 ProductList-CARD-BODY">
             <div class="row pb-3">
-                <div class="col-12 text-end CategoryList-BUTTON-Div">
-                    <a href="category/create" class="btn btn-secondary btn-lg CategoryList-BUTTON" style="width:250px;"><i class="bi bi-plus-square"></i> Add New Category</a>
+                <div class="col-12 text-end ProductList-BUTTON-Div">
+                    <a href="product/create" class="btn btn-secondary btn-lg ProductList-BUTTON" style="width:250px;"><i class="bi bi-plus-square"></i> Add New Product</a>
                 </div>
             </div>
-            @if (Categories.Any())
+            @if (Products.Any())
             {
-                <table class="table table-bordered table-striped CategoryList-table">
+                <table class="table table-bordered table-striped ProductList-table">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -39,12 +39,12 @@ else
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var obj in Categories)
+                        @foreach (var obj in Products)
                         {
                             <tr>
                                 <td>@obj.Name</td>
                                 <td>
-                                    <a href="@($"category/update/{obj.Id}")" class="btn btn-secondary"><i class="bi bi-pencil-square"></i> Edit</a>
+                                    <a href="@($"product/update/{obj.Id}")" class="btn btn-secondary"><i class="bi bi-pencil-square"></i> Edit</a>
                                     <a class="btn btn-danger" @onclick="() => HandleDelete(obj.Id)"><i class="bi bi-trash"></i> Delete</a>
                                 </td>
                             </tr>
@@ -58,27 +58,27 @@ else
 
 @code {
     private bool isProcessing { get; set; } = true;
-    private int DeleteCategoryID { get; set; } = 0;
-    private IEnumerable<Category> Categories = new List<Category>();
+    private int DeleteProductID { get; set; } = 0;
+    private IEnumerable<Product> Products = new List<Product>();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await LoadCategories();
+            await LoadProducts();
             isProcessing = false;
-            StateHasChanged(); 
+            StateHasChanged();
         }
     }
 
-    private async Task LoadCategories()
+    private async Task LoadProducts()
     {
-        Categories = await _categoryRepository.GetAllAsync();
+        Products = await _productRepository.GetAllAsync();
     }
 
     private async Task HandleDelete(int id)
     {
-        DeleteCategoryID = id;
+        DeleteProductID = id;
         await _JS.InvokeVoidAsync("ShowConfirmationModal");
     }
 
@@ -87,20 +87,20 @@ else
     {
         await _JS.InvokeVoidAsync("HideConfirmationModal");
         isProcessing = true;
-        if (isConfirmed && DeleteCategoryID != 0)
+        if (isConfirmed && DeleteProductID != 0)
         {
-            var result = await _categoryRepository.DeleteAsync(DeleteCategoryID);
+            var result = await _productRepository.DeleteAsync(DeleteProductID);
             if (result)
             {
-                await _JS.InvokeVoidAsync("toastr.success", "Category deleted successfully.");
+                await _JS.InvokeVoidAsync("toastr.success", "Product deleted successfully.");
             }
             else
             {
-                await _JS.InvokeVoidAsync("toastr.error", "Failed to delete category.");
+                await _JS.InvokeVoidAsync("toastr.error", "Failed to delete product.");
             }
-            await LoadCategories();
+            await LoadProducts();
         }
-        DeleteCategoryID = 0;
+        DeleteProductID = 0;
         isProcessing = false;
         StateHasChanged();
     }

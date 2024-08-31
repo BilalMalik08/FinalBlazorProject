@@ -1,0 +1,146 @@
+﻿@page "/product/create"
+@page "/product/update/{id:int}"
+@inject IProductRepository _productRepository
+@inject ICategoryRepository _categoryRepository
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _JS
+<link rel="stylesheet" href="css/productUpsert.css" />
+
+@if (isProcessing)
+{
+    <div class="d-flex justify-content-center align-items-center min-vh-100">
+        <img src="/images/loading.gif" alt="loading" />
+    </div>
+}
+else
+{
+    <div class="card shadow border-0 mt-4">
+        <div class="card-header bg-black bg-gradient text-white text-center py-3">
+            <h2 class="my-2">@(Id > 0 ? "Update Product" : "Create Product") <i class="bi bi-boxes"></i></h2>
+        </div>
+        <div class="card-body p-4">
+            <EditForm Model="Product" FormName="ProductUpsertForm" OnValidSubmit="UpsertProduct">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="border p-3 mt-4">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="Product.Name" class="form-control" id="Name" placeholder="Name" />
+                        <label for="Name">Name</label>
+                        <ValidationMessage For="@(() => Product.Name)" />
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="Product.Description" class="form-control" id="Description" placeholder="Description" />
+                        <label for="Description">Description</label>
+                        <ValidationMessage For="@(() => Product.Description)" />
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <InputNumber @bind-Value="Product.Price" class="form-control" id="Price" placeholder="Price" />
+                        <label for="Price">Price</label>
+                        <ValidationMessage For="@(() => Product.Price)" />
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <InputSelect @bind-Value="Product.CategoryId" class="form-select" id="Category">
+                            <option value="0" disabled>Select Category</option>
+                            @foreach (var category in _categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </InputSelect>
+                        <label for="Category">Category</label>
+                        <ValidationMessage For="@(() => Product.CategoryId)" />
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-12 col-md-6 col-lg-3 mb-2 mb-md-0">
+                            <button type="submit" class="btn btn-secondary w-100" disabled="@isProcessing">
+                                <i class="bi @(Id > 0 ? "bi-save" : "bi-plus-square")"></i> @(Id > 0 ? "Update" : "Create")
+                            </button>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <a href="product" class="btn btn-outline-secondary w-100" disabled="@isProcessing">
+                                <i class="bi bi-arrow-bar-left"></i> Back To List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Product Product { get; set; } = new Product();
+    private IEnumerable<Category> _categories { get; set; } = new List<Category>();
+    private bool isProcessing { get; set; } = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadProductAndCategoryList();
+            isProcessing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadProductAndCategoryList()
+    {
+        if (Id > 0)
+        {
+            Product = await _productRepository.GetAsync(Id);
+        }
+        _categories = await _categoryRepository.GetAllAsync();
+    }
+
+    private async Task UpsertProduct()
+    {
+        isProcessing = true;
+
+        // Check if the CategoryId is valid
+        if (!_categories.Any(c => c.Id == Product.CategoryId))
+        {
+            await _JS.ToastrError("Invalid Category. Please select a valid category.");
+            isProcessing = false;
+            return;
+        }
+
+        bool isNewProduct = Product.Id == 0;
+
+        if (isNewProduct)
+        {
+            // Create
+            var createdProduct = await _productRepository.CreateAsync(Product);
+            if (createdProduct != null)
+            {
+                await _JS.ToastrSuccess("Product created successfully.");
+            }
+            else
+            {
+                await _JS.ToastrError("Failed to create product.");
+            }
+        }
+        else
+        {
+            // Update
+            var updatedProduct = await _productRepository.UpdateAsync(Product);
+            if (updatedProduct != null)
+            {
+                await _JS.ToastrSuccess("Product updated successfully.");
+            }
+            else
+            {
+                await _JS.ToastrError("Failed to update product.");
+            }
+        }
+
+        isProcessing = false;
+        _navigationManager.NavigateTo("product");
+    }
+}

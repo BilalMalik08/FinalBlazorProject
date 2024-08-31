@@ -1,5 +1,5 @@
 ﻿/* Base Styles */
-.CategoryUpsert-Loading {
+.ProductUpsert-Loading {
     height: 85vh;
     width: 100%;
     display: flex;
@@ -12,54 +12,54 @@
 
 /* Responsive Styles */
 @media (max-width: 992px) { /* Tablets */
-    .CategoryUpsert-Loading {
+    .ProductUpsert-Loading {
         width: 85%;
         height: 85vh;
         margin: auto;
     }
 
-    .CategoryUpsert-CARD-BODY {
+    .ProductUpsert-CARD-BODY {
         padding: 2rem;
     }
 
-    .CategoryUpsert-HEADING {
+    .ProductUpsert-HEADING {
         font-size: 1.75rem;
     }
 
-    .CategoryUpsert-BUTTON-Div {
+    .ProductUpsert-BUTTON-Div {
         flex-direction: column;
         align-items: stretch;
-        gap: 0.5rem; 
+        gap: 0.5rem;
     }
 
-    .CategoryUpsert-Create-BTN,
-    .CategoryUpsert-Back-BTN {
+    .ProductUpsert-Create-BTN,
+    .ProductUpsert-Back-BTN {
         width: 100%;
     }
 }
 
 @media (max-width: 768px) { /* Mobiles */
-    .CategoryUpsert-Loading {
+    .ProductUpsert-Loading {
         height: 65vh;
         margin: auto;
     }
 
-    .CategoryUpsert-CARD-BODY {
+    .ProductUpsert-CARD-BODY {
         padding: 1rem;
     }
 
-    .CategoryUpsert-HEADING {
+    .ProductUpsert-HEADING {
         font-size: 1.5rem;
     }
 
-    .CategoryUpsert-BUTTON-Div {
+    .ProductUpsert-BUTTON-Div {
         flex-direction: column;
         align-items: stretch;
-        gap: 0.5rem; 
+        gap: 0.5rem;
     }
 
-    .CategoryUpsert-Create-BTN,
-    .CategoryUpsert-Back-BTN {
+    .ProductUpsert-Create-BTN,
+    .ProductUpsert-Back-BTN {
         width: 100%;
     }
 }
