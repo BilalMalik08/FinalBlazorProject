@@ -1,23 +1,27 @@
-﻿
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-</button>
-
-
-<div class="modal fade" id="bsConfirmationeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+﻿<div class="modal fade" id="bsConfirmationeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Delete</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                Are you sure you want to delete this category?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" @onclick="() => ConfirmationClicked(false)" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" @onclick="() => ConfirmationClicked(true)" class="btn btn-primary">Delete</button>
             </div>
         </div>
     </div>
 </div>
+
+@code {
+    [Parameter]
+    public EventCallback<bool> OnModalConfirmation { get; set; }
+
+    private async Task ConfirmationClicked(bool value)
+    {
+        await OnModalConfirmation.InvokeAsync(value);
+    }
+}
