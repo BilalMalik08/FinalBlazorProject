@@ -19,7 +19,7 @@ else
         <div class="card-body p-4 CategoryList-CARD-BODY">
             <div class="row pb-3">
                 <div class="col-12 text-end CategoryList-BUTTON-Div">
-                    <button class="btn btn-secondary btn-lg CategoryList-BUTTON" style="width:250px;">Add New Category</button>
+                    <a href="category/create" class="btn btn-secondary btn-lg CategoryList-BUTTON" style="width:250px;">Add New Category</a>
                 </div>
             </div>
             @if (Categories.Any())
@@ -36,8 +36,10 @@ else
                         {
                             <tr>
                                 <td>@obj.Name</td>
-                                <td>Buttons</td>
-                               
+                                <td>
+                                    <a href="@($"category/update/{obj.Id}")" class="btn btn-secondary">Edit</a>
+                                    <a href="" class="btn btn-danger">Delete</a>
+                                </td>
                             </tr>
                         }
                     </tbody>

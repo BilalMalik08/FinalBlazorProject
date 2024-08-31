@@ -13,22 +13,23 @@
 .CategoryList-table {
     width: 100%;
     table-layout: fixed;
-    border-collapse: collapse; 
-    background-color: #ffffff; 
+    border-collapse: collapse;
+    background-color: #ffffff;
 }
 
     .CategoryList-table th, .CategoryList-table td {
-        padding: 0.75rem; 
-        text-align: left;
+        padding: 0.75rem;
+        text-align: center;
+        vertical-align: middle;
     }
 
     .CategoryList-table th {
-        background-color: #f8f9fa; 
+        background-color: #f8f9fa;
         font-weight: bold;
     }
 
     .CategoryList-table td {
-        border-top: 1px solid #dee2e6; 
+        border-top: 1px solid #dee2e6;
     }
 
     .CategoryList-table tr:nth-child(even) {
@@ -88,16 +89,16 @@
 
     .CategoryList-table {
         font-size: 0.75rem;
-        overflow-x: auto; 
+        overflow-x: auto;
         display: block;
     }
 
         .CategoryList-table th, .CategoryList-table td {
             padding: 0.5rem;
+            vertical-align: middle;
         }
 
-        
         .CategoryList-table th, .CategoryList-table td {
-            white-space: nowrap; 
+            white-space: nowrap;
         }
 }
