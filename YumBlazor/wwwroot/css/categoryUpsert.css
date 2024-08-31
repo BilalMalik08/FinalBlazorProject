@@ -1,0 +1,65 @@
+﻿/* Base Styles */
+.CategoryUpsert-Loading {
+    height: 85vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    position: relative;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) { /* Tablets */
+    .CategoryUpsert-Loading {
+        width: 85%;
+        height: 85vh;
+        margin: auto;
+    }
+
+    .CategoryUpsert-CARD-BODY {
+        padding: 2rem;
+    }
+
+    .CategoryUpsert-HEADING {
+        font-size: 1.75rem;
+    }
+
+    .CategoryUpsert-BUTTON-Div {
+        flex-direction: column;
+        align-items: stretch; /* Ensure buttons take full width */
+        gap: 0.5rem; /* Space between buttons */
+    }
+
+    .CategoryUpsert-Create-BTN,
+    .CategoryUpsert-Back-BTN {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) { /* Mobiles */
+    .CategoryUpsert-Loading {
+        height: 65vh;
+        margin: auto;
+    }
+
+    .CategoryUpsert-CARD-BODY {
+        padding: 1rem;
+    }
+
+    .CategoryUpsert-HEADING {
+        font-size: 1.5rem;
+    }
+
+    .CategoryUpsert-BUTTON-Div {
+        flex-direction: column;
+        align-items: stretch; /* Ensure buttons take full width */
+        gap: 0.5rem; /* Space between buttons */
+    }
+
+    .CategoryUpsert-Create-BTN,
+    .CategoryUpsert-Back-BTN {
+        width: 100%;
+    }
+}

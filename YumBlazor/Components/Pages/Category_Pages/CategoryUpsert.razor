@@ -1,9 +1,92 @@
 ﻿@page "/category/create"
 @page "/category/update/{id:int}"
+@inject ICategoryRepository _categoryRepository
+@inject NavigationManager _navigationManager
+<link rel="stylesheet" href="css/categoryUpsert.css" />
 
-<h3>CategoryUpsert</h3>
+@if (isProcessing)
+{
+    <div class="CategoryUpsert-Loading">
+        <img src="/images/loading.gif" alt="loading" />
+    </div>
+}
+else
+{
+    <div class="card shadow border-0 mt-4 CategoryUpsert-CARD">
+        <div class="card-header bg-black bg-gradient ml-0 py-3 CategoryUpsert-HEADER">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2 CategoryUpsert-HEADING">@(Id > 0 ? "Update Category" : "Create Category")</h2>
+            </div>
+        </div>
+        <div class="card-body p-4 CategoryUpsert-CARD-BODY">
+            <EditForm Model="Category" FormName="CategoryUpsertForm" OnValidSubmit="UpsertCategory">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="border p-3 mt-4">
+                    <div class="form-floating p-3 col-12">
+                        <InputText @bind-Value="@Category.Name" class="form-control" id="Name" placeholder="Name" />
+                        <label for="Name">Name</label>
+                        <ValidationMessage For="@(() => Category.Name)" />
+                    </div>
+                    <div class="row mt-3 CategoryUpsert-BUTTON-Div">
+                        <div class="col-12 col-md-12 col-lg-3 mb-2 mb-md-0">
+                            <button type="submit" class="btn btn-secondary form-control CategoryUpsert-Create-BTN" disabled="@isProcessing">
+                                <i class="bi @(Id > 0 ? "bi-save" : "bi-plus-square")"></i> @(Id > 0 ? "Update" : "Create")
+                            </button>
+                        </div>
+                        <div class="col-12 col-md-12 col-lg-3">
+                            <a href="category" class="btn btn-outline-secondary form-control CategoryUpsert-Back-BTN" disabled="@isProcessing">
+                                <i class="bi bi-arrow-bar-left"></i> Back To List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+}
 
 @code {
     [Parameter]
     public int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Category Category { get; set; } = new Category();
+
+    private bool isProcessing { get; set; } = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadCategory();
+            isProcessing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadCategory()
+    {
+        if (Id > 0)
+        {
+            Category = await _categoryRepository.GetAsync(Id);
+        }
+    }
+
+    private async Task UpsertCategory()
+    {
+        isProcessing = true;
+        if (Category.Id == 0)
+        {
+            // Create
+            await _categoryRepository.CreateAsync(Category);
+        }
+        else
+        {
+            // Update
+            await _categoryRepository.UpdateAsync(Category);
+        }
+        isProcessing = false;
+        _navigationManager.NavigateTo("category");
+    }
 }
