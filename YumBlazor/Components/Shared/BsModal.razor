@@ -1,16 +1,17 @@
 ﻿<div class="modal fade" id="bsConfirmationeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirm Delete</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content bg-light border-0 rounded shadow-sm">
+            <div class="modal-header bg-danger text-white border-bottom-0 rounded-top">
+                <h5 class="modal-title fs-5" id="exampleModalLabel"><i class="bi bi-exclamation-circle"></i> @Title</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                Are you sure you want to delete this category?
-            </div>
-            <div class="modal-footer">
-                <button type="button" @onclick="() => ConfirmationClicked(false)" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" @onclick="() => ConfirmationClicked(true)" class="btn btn-primary">Delete</button>
+            <div class="modal-body text-center py-4">
+                <button type="button" @onclick="() => ConfirmationClicked(true)" class="btn btn-lg @ButtonBootstrapStyle text-white" style="width:150px;">
+                    <i class="bi bi-trash"></i> @ButtonText
+                </button>
+                <button type="button" @onclick="() => ConfirmationClicked(false)" class="btn btn-lg btn-secondary text-white" style="width:150px;" data-bs-dismiss="modal">
+                    <i class="bi bi-x-square"></i> Close
+                </button>
             </div>
         </div>
     </div>
@@ -19,6 +20,15 @@
 @code {
     [Parameter]
     public EventCallback<bool> OnModalConfirmation { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = "Please Confirm";
+
+    [Parameter]
+    public string ButtonBootstrapStyle { get; set; } = "btn-secondary";
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Confirm";
 
     private async Task ConfirmationClicked(bool value)
     {

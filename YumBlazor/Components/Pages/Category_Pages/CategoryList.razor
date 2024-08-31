@@ -3,7 +3,11 @@
 @inject IJSRuntime _JS
 <link rel="stylesheet" href="css/categoryList.css" />
 
-<BsModal OnModalConfirmation="ConfirmDelete_Click"></BsModal>
+<BsModal OnModalConfirmation="ConfirmDelete_Click" 
+         ButtonBootstrapStyle="btn-danger" 
+         ButtonText="Delete" 
+         Title="Are you sure you want to delete this category?">
+</BsModal>
 
 @if (isProcessing)
 {
