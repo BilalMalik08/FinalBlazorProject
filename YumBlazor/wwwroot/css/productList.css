@@ -36,6 +36,19 @@
         background-color: #f2f2f2;
     }
 
+    /* Reduce column widths */
+    .ProductList-table .price-col {
+        width: 12%;
+    }
+
+    .ProductList-table .special-tag-col {
+        width: 18%;
+    }
+
+    .ProductList-table .category-col {
+        width: 18%;
+    }
+
 /* Responsive Styles */
 @media (max-width: 992px) { /* Tablets */
     .ProductList-Loading {
