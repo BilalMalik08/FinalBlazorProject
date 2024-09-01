@@ -45,6 +45,13 @@ else
                         <ValidationMessage For="@(() => Product.Description)" />
                     </div>
 
+                    <!-- Product Special Tag -->
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="Product.SpecialTag" class="form-control" id="SpecialTag" placeholder="Special Tag" />
+                        <label for="SpecialTag">Special Tag</label>
+                        <ValidationMessage For="@(() => Product.SpecialTag)" />
+                    </div>
+
                     <!-- Product Price -->
                     <div class="form-floating mb-3">
                         <InputNumber @bind-Value="Product.Price" class="form-control" id="Price" placeholder="Price" />
