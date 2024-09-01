@@ -54,6 +54,12 @@ else
                         <ValidationMessage For="@(() => Product.CategoryId)" />
                     </div>
 
+                    <div class="form-floating mb-3">
+                        <InputFile OnChange="LoadFiles" class="form-control" id="CustomFile" 
+                        accept="image/x-png,image/jpeg"></InputFile>
+                        <label for="CustomFile">Upload Image</label>
+                    </div>
+
                     <div class="row mt-3">
                         <div class="col-12 col-md-6 col-lg-3 mb-2 mb-md-0">
                             <button type="submit" class="btn btn-secondary w-100" disabled="@isProcessing">
@@ -78,6 +84,8 @@ else
 
     private Product Product { get; set; } = new Product();
     private IEnumerable<Category> _categories { get; set; } = new List<Category>();
+    private string? _directoryPath { get; set; } 
+    private bool _isImageLoading { get; set; } = false;
     private bool isProcessing { get; set; } = true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -142,5 +150,10 @@ else
 
         isProcessing = false;
         _navigationManager.NavigateTo("product");
+    }
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        
     }
 }
