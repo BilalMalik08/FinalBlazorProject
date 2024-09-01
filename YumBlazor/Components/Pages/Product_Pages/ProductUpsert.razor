@@ -7,6 +7,8 @@
 @inject IJSRuntime _JS
 <link rel="stylesheet" href="css/productUpsert.css" />
 
+<PageTitle>@(Id > 0 ? "Update Product" : "Create Product")</PageTitle>
+
 <BsModal OnModalConfirmation="ConfirmDeleteImage"
          ButtonBootstrapStyle="btn-danger"
          ButtonText="Delete"
@@ -84,10 +86,10 @@ else
                         @if (Product.ImageUrl != null)
                         {
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-6 col-lg-3">
                                     <img src="@Product.ImageUrl" alt="productImage" class="img-thumbnail" />
                                 </div>
-                                <div class="col-9">
+                                <div class="col-6 col-lg-9">
                                     <i class="bi bi-trash btn btn-outline-danger" @onclick="() => HandleImageDeleteConfirmation()">
                                         Remove
                                     </i>
@@ -234,7 +236,7 @@ else
             await _JS.InvokeVoidAsync("HideConfirmationModal");
             await _JS.ToastrSuccess("Image deleted successfully.");
         }
-        
+
         isProcessing = false;
         StateHasChanged();
     }

@@ -4,7 +4,7 @@
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">YumBlazor</a>
+        <a class="navbar-brand" href="">YumBlazor <i class="bi bi-cookie"></i></a>
     </div>
 </div>
 
@@ -43,7 +43,7 @@
             <Authorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link p-2" href="Account/Manage">
-                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
+                        <i class="bi bi-person-circle mb-4 me-2 fs-6 text-white" aria-hidden="true"></i> @context.User.Identity?.Name
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
@@ -51,7 +51,7 @@
                         <AntiforgeryToken />
                         <input type="hidden" name="ReturnUrl" value="@currentUrl" />
                         <button type="submit" class="nav-link">
-                            <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+                            <i class="bi bi-arrow-bar-left mb-4 me-2 fs-6 text-white" aria-hidden="true"></i> Logout
                         </button>
                     </form>
                 </div>
@@ -59,12 +59,12 @@
             <NotAuthorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link p-2" href="Account/Register">
-                        <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
+                        <i class="bi bi-person-plus mb-4 me-2 fs-6 text-white" aria-hidden="true"></i> Register
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link p-2" href="Account/Login">
-                        <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
+                        <i class="bi bi-person-lock mb-4 me-2 fs-6 text-white" aria-hidden="true"></i> Login
                     </NavLink>
                 </div>
             </NotAuthorized>

@@ -3,6 +3,8 @@
 @inject IJSRuntime _JS
 <link rel="stylesheet" href="css/productList.css" />
 
+<PageTitle>Product</PageTitle>
+
 <BsModal OnModalConfirmation="ConfirmDelete_Click"
          ButtonBootstrapStyle="btn-danger"
          ButtonText="Delete"
@@ -90,7 +92,7 @@ else
         await _JS.InvokeVoidAsync("ShowConfirmationModal");
     }
 
-    [JSInvokable]
+    
     public async Task ConfirmDelete_Click(bool isConfirmed)
     {
         await _JS.InvokeVoidAsync("HideConfirmationModal");

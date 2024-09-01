@@ -5,6 +5,8 @@
 @inject IJSRuntime _JS
 <link rel="stylesheet" href="css/categoryUpsert.css" />
 
+<PageTitle>@(Id > 0 ? "Update Category" : "Create Category")</PageTitle>
+
 @if (isProcessing)
 {
     <div class="CategoryUpsert-Loading">
@@ -16,7 +18,7 @@ else
     <div class="card shadow border-0 mt-4 CategoryUpsert-CARD">
         <div class="card-header bg-black bg-gradient ml-0 py-3 CategoryUpsert-HEADER">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2 CategoryUpsert-HEADING">@(Id > 0 ? "Update Category" : "Create Category")  <i class="bi bi-c-square"></i></h2>
+                <h2 class="text-white py-2 CategoryUpsert-HEADING">@(Id > 0 ? "Update Category" : "Create Category") <i class="bi bi-c-square"></i></h2>
             </div>
         </div>
         <div class="card-body p-4 CategoryUpsert-CARD-BODY">
