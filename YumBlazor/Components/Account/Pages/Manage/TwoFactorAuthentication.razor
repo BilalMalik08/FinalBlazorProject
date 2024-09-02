@@ -39,27 +39,39 @@
             </div>
         }
 
-        if (isMachineRemembered)
+        @if (isMachineRemembered)
         {
             <form style="display: inline-block" @formname="forget-browser" @onsubmit="OnSubmitForgetBrowserAsync" method="post">
                 <AntiforgeryToken />
-                <button type="submit" class="btn btn-primary">Forget this browser</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-x-circle"></i> Forget this browser
+                </button>
             </form>
         }
 
-        <a href="Account/Manage/Disable2fa" class="btn btn-secondary">Disable 2FA</a>
-        <a href="Account/Manage/GenerateRecoveryCodes" class="btn btn-secondary">Reset recovery codes</a>
+        <a href="Account/Manage/Disable2fa" class="btn btn-secondary">
+            <i class="bi bi-lock"></i> Disable 2FA
+        </a>
+        <a href="Account/Manage/GenerateRecoveryCodes" class="btn btn-secondary">
+            <i class="bi bi-arrow-repeat"></i> Reset recovery codes
+        </a>
     }
 
     <h4>Authenticator app</h4>
     @if (!hasAuthenticator)
     {
-        <a href="Account/Manage/EnableAuthenticator" class="btn btn-secondary">Add authenticator app</a>
+        <a href="Account/Manage/EnableAuthenticator" class="btn btn-secondary">
+            <i class="bi bi-plus-circle"></i> Add authenticator app
+        </a>
     }
     else
     {
-        <a href="Account/Manage/EnableAuthenticator" class="btn btn-secondary">Set up authenticator app</a>
-        <a href="Account/Manage/ResetAuthenticator" class="btn btn-secondary">Reset authenticator app</a>
+        <a href="Account/Manage/EnableAuthenticator" class="btn btn-secondary">
+            <i class="bi bi-pencil-square"></i> Set up authenticator app
+        </a>
+        <a href="Account/Manage/ResetAuthenticator" class="btn btn-secondary">
+            <i class="bi bi-arrow-counterclockwise"></i> Reset authenticator app
+        </a>
     }
 }
 else
