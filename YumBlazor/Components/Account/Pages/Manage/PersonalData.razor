@@ -15,20 +15,10 @@
         </p>
         <form action="Account/Manage/DownloadPersonalData" method="post">
             <AntiforgeryToken />
-            <button class="btn btn-primary" type="submit">Download</button>
+            <button class="btn btn-secondary btn-lg" type="submit">Download Personal Data</button>
         </form>
-        <p>
-            <a href="Account/Manage/DeletePersonalData" class="btn btn-danger">Delete</a>
+        <p class="mt-3">
+            <a href="Account/Manage/DeletePersonalData" class="btn btn-danger btn-lg">Delete Account</a>
         </p>
     </div>
 </div>
-
-@code {
-    [CascadingParameter]
-    private HttpContext HttpContext { get; set; } = default!;
-
-    protected override async Task OnInitializedAsync()
-    {
-        _ = await UserAccessor.GetRequiredUserAsync(HttpContext);
-    }
-}

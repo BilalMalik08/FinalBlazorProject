@@ -12,21 +12,34 @@
 
 <PageTitle>Register confirmation</PageTitle>
 
-<h1>Register confirmation</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="card shadow border-0 bg-dark bg-gradient text-white">
+                <div class="card-header text-center bg-info">
+                    <h3 class="my-3"><i class="bi bi-check-circle"></i> Register Confirmation</h3>
+                </div>
+                <div class="card-body">
+                    <StatusMessage Message="@statusMessage" />
 
-<StatusMessage Message="@statusMessage" />
-
-@if (emailConfirmationLink is not null)
-{
-    <p>
-        This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-        Normally this would be emailed: <a href="@emailConfirmationLink">Click here to confirm your account</a>
-    </p>
-}
-else
-{
-    <p>Please check your email to confirm your account.</p>
-}
+                    @if (emailConfirmationLink is not null)
+                    {
+                        <p>
+                            This app does not currently have a real email sender registered. See
+                            <a href="https://aka.ms/aspaccountconf" class="text-info">these docs</a> for how to configure a real email sender.
+                            Normally this would be emailed:
+                            <a href="@emailConfirmationLink" class="text-info">Click here to confirm your account</a>
+                        </p>
+                    }
+                    else
+                    {
+                        <p>Please check your email to confirm your account.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
     private string? emailConfirmationLink;

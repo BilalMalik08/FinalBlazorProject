@@ -47,19 +47,19 @@
             </form>
         }
 
-        <a href="Account/Manage/Disable2fa" class="btn btn-primary">Disable 2FA</a>
-        <a href="Account/Manage/GenerateRecoveryCodes" class="btn btn-primary">Reset recovery codes</a>
+        <a href="Account/Manage/Disable2fa" class="btn btn-secondary">Disable 2FA</a>
+        <a href="Account/Manage/GenerateRecoveryCodes" class="btn btn-secondary">Reset recovery codes</a>
     }
 
     <h4>Authenticator app</h4>
     @if (!hasAuthenticator)
     {
-        <a href="Account/Manage/EnableAuthenticator" class="btn btn-primary">Add authenticator app</a>
+        <a href="Account/Manage/EnableAuthenticator" class="btn btn-secondary">Add authenticator app</a>
     }
     else
     {
-        <a href="Account/Manage/EnableAuthenticator" class="btn btn-primary">Set up authenticator app</a>
-        <a href="Account/Manage/ResetAuthenticator" class="btn btn-primary">Reset authenticator app</a>
+        <a href="Account/Manage/EnableAuthenticator" class="btn btn-secondary">Set up authenticator app</a>
+        <a href="Account/Manage/ResetAuthenticator" class="btn btn-secondary">Reset authenticator app</a>
     }
 }
 else

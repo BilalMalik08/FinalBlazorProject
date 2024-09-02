@@ -1,17 +1,30 @@
 ﻿@inherits LayoutComponentBase
 @layout AccountLayout
 
-<h1>Manage your account</h1>
+<h1 class="text-center my-4 bg-black text-white">Manage Your Account <i class="bi bi-person-gear"></i></h1>
 
-<div>
-    <h2>Change your account settings</h2>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <ManageNavMenu />
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-start">
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            <div class="card shadow border-0 bg-dark bg-gradient text-white">
+                <div class="card-header text-center bg-black bg-gradient">
+                    <h3 class="my-3">Account Settings</h3>
+                </div>
+                <div class="card-body">
+                    <ManageNavMenu />
+                </div>
+            </div>
         </div>
-        <div class="col-md-9">
-            @Body
+
+        <div class="col-lg-9 col-md-8 col-sm-12 mt-4 mt-md-0">
+            <div class="card shadow border-0 bg-dark bg-gradient text-white">
+                <div class="card-header text-center bg-black bg-gradient">
+                    <h2 class="my-3">Change Your Account Settings</h2>
+                </div>
+                <div class="card-body">
+                    @Body
+                </div>
+            </div>
         </div>
     </div>
 </div>
