@@ -81,3 +81,29 @@ span.nav-link.active {
 .mark-up-string * {
     background: transparent !important;
 }
+
+.Home-Loading {
+    height: 85vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    position: relative;
+}
+
+@media (max-width: 992px) { /* Tablets */
+    .Home-Loading {
+        width: 85%;
+        height: 85vh;
+        margin: auto;
+    }
+}
+
+@media (max-width: 768px) { /* Mobiles */
+    .Home-Loading {
+        height: 65vh;
+        margin: auto;
+    }
+}
