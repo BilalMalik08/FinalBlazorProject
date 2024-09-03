@@ -26,44 +26,53 @@ else
         <div class="content px-4 m-2">
             <ul class="nav nav-underline justify-content-center mb-2">
                 <li class="nav-item">
-                    <span class="nav-link" style="cursor: pointer" @onclick="() => FilterProducts(0)">All</span>
+                    <span class="@GetActiveTabClass(0)" style="cursor: pointer" @onclick="() => FilterProducts(0)">All</span>
                 </li>
                 @foreach (var Category in Categories)
                 {
                     <li class="nav-item">
-                        <span class="nav-link" style="cursor: pointer" @onclick="() => FilterProducts(Category.Id)">@Category.Name</span>
+                        <span class="@GetActiveTabClass(Category.Id)" style="cursor: pointer" @onclick="() => FilterProducts(Category.Id)">@Category.Name</span>
                     </li>
                 }
             </ul>
-            <div class="row mt-4 mx-1">
-                @foreach (var Prod in FilteredProducts)
-                {
-                    <div class="col-12 col-md-6 col-lg-4 pe-3 mb-5">
-                        <div class="card bg-dark text-white">
-                            <div class="mt-3 mb-2 row">
-                                <div class="col-6 px-3">
-                                    <i class="bi bi-star btn btn-outline-warning ms-1 disabled"> @Prod.SpecialTag</i>
+            @if (!FilteredProducts.Any())
+            {
+                <div class="alert alert-warning text-center">
+                    No products found.
+                </div>
+            }
+            else
+            {
+                <div class="row mt-4 mx-1">
+                    @foreach (var Prod in FilteredProducts)
+                    {
+                        <div class="col-12 col-md-6 col-lg-4 pe-3 mb-5">
+                            <div class="card bg-dark text-white">
+                                <div class="mt-3 mb-2 row">
+                                    <div class="col-6 px-3">
+                                        <i class="bi bi-star btn btn-outline-warning ms-1 disabled"> @Prod.SpecialTag</i>
+                                    </div>
+                                    <div class="col-6 text-end px-3 text-success h3 pe-4">
+                                        @Prod.Price.ToString("C")
+                                    </div>
                                 </div>
-                                <div class="col-6 text-end px-3 text-success h3 pe-4">
-                                    @Prod.Price.ToString("C")
+                                <div class="text-center">
+                                    <img class="card-img-top img-thumbnail img-rounded w-50 mt-2"
+                                         src="@(!string.IsNullOrEmpty(Prod.ImageUrl) ? Prod.ImageUrl : "images/default.png")"
+                                         alt="@Prod.Name" />
                                 </div>
-                            </div>
-                            <div class="text-center">
-                                <img class="card-img-top img-thumbnail img-rounded w-50 mt-2"
-                                     src="@(!string.IsNullOrEmpty(Prod.ImageUrl) ? Prod.ImageUrl : "images/default.png")"
-                                     alt="@Prod.Name" />
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title text-center lead text-white">@Prod.Name</h5>
-                                <p class="card-text mt-2">@((MarkupString)Prod.Description)</p>
-                                <h4 class="text-center">
-                                    <button class="btn btn-secondary AddToCart-BTN w-100" style="font-size: 1rem;">Add to cart</button>
-                                </h4>
+                                <div class="card-body">
+                                    <h5 class="card-title text-center lead text-white">@Prod.Name</h5>
+                                    <p class="card-text mt-2">@((MarkupString)Prod.Description)</p>
+                                    <h4 class="text-center">
+                                        <button class="btn btn-secondary AddToCart-BTN w-100" style="font-size: 1rem;">Add to cart</button>
+                                    </h4>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
+                    }
+                </div>
+            }
         </div>
     </div>
 }
@@ -71,7 +80,7 @@ else
 @code {
     private IEnumerable<Product> Products = new List<Product>();
     private IEnumerable<Category> Categories = new List<Category>();
-    private IEnumerable<Product> FilteredProducts = new List<Product>(); // Correct type
+    private IEnumerable<Product> FilteredProducts = new List<Product>();
     private bool isProcessing { get; set; } = true;
     private int _selectedCategoryId = 0;
     private string _searchText = "";
@@ -90,7 +99,7 @@ else
     {
         Products = await _productRepository.GetAllAsync();
         Categories = await _categoryRepository.GetAllAsync();
-        FilterProducts(_selectedCategoryId); // Call initial filter
+        FilterProducts(_selectedCategoryId);
     }
 
     private void FilterProducts(int categoryId)
@@ -104,6 +113,7 @@ else
             FilteredProducts = Products.Where(p => p.CategoryId == categoryId).ToList();
         }
         _selectedCategoryId = categoryId;
+        _searchText = "";
     }
 
     private void FilterProductsByName(string newValueOfSearchText)
@@ -119,5 +129,10 @@ else
                 .ToList();
         }
         _searchText = newValueOfSearchText;
+    }
+
+    private string GetActiveTabClass(int categoryId)
+    {
+        return categoryId == _selectedCategoryId ? "nav-link active" : "nav-link";
     }
 }
