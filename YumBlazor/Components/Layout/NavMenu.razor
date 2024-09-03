@@ -12,20 +12,20 @@
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
-        <div class="nav-item px-3">
+        <div class="nav-item px-1">
             <NavLink class="nav-link p-2" href="" Match="NavLinkMatch.All">
                 <i class="bi bi-house mb-4 me-2 fs-6 text-white" aria-hidden="true"></i> Home
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
+        <div class="nav-item px-1">
             <NavLink class="nav-link p-2" href="category" Match="NavLinkMatch.All">
                 <i class="bi bi-c-square mb-4 me-2 fs-6 text-white" aria-hidden="true"></i>
                 Category
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
+        <div class="nav-item px-1">
             <NavLink class="nav-link p-2" href="product" Match="NavLinkMatch.All">
                 <i ></i>
                 <i class="bi bi-boxes mb-4 me-2 fs-6 text-white" aria-hidden="true"></i>
@@ -33,7 +33,7 @@
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
+        <div class="nav-item px-1">
             <NavLink class="nav-link p-2" href="auth">
                 <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Auth Required
             </NavLink>
@@ -41,12 +41,12 @@
 
         <AuthorizeView>
             <Authorized>
-                <div class="nav-item px-3">
+                <div class="nav-item px-1">
                     <NavLink class="nav-link p-2" href="Account/Manage">
                         <i class="bi bi-person-circle mb-4 me-2 fs-6 text-white" aria-hidden="true"></i> @context.User.Identity?.Name
                     </NavLink>
                 </div>
-                <div class="nav-item px-3">
+                <div class="nav-item px-1">
                     <form action="Account/Logout" method="post">
                         <AntiforgeryToken />
                         <input type="hidden" name="ReturnUrl" value="@currentUrl" />
@@ -57,12 +57,12 @@
                 </div>
             </Authorized>
             <NotAuthorized>
-                <div class="nav-item px-3">
+                <div class="nav-item px-1">
                     <NavLink class="nav-link p-2" href="Account/Register">
                         <i class="bi bi-person-plus mb-4 me-2 fs-6 text-white" aria-hidden="true"></i> Register
                     </NavLink>
                 </div>
-                <div class="nav-item px-3">
+                <div class="nav-item px-1">
                     <NavLink class="nav-link p-2" href="Account/Login">
                         <i class="bi bi-person-lock mb-4 me-2 fs-6 text-white" aria-hidden="true"></i> Login
                     </NavLink>
