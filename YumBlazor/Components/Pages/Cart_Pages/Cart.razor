@@ -23,92 +23,99 @@
 else
 {
     <div class="container my-3">
-        <div class="row justify-content-center align-items-start g-4">
-            <div class="col-lg-6 col-md-6 col-sm-12 d-flex mb-4">
-                <div class="card shadow border-0 bg-dark bg-gradient text-white d-flex flex-column mb-2" style="flex: 1;">
-                    <div class="card-header text-center bg-black bg-gradient">
-                        <h4 class="text-success mb-4">Cart Summary</h4>
-                    </div>
-                    <div class="card-body flex-fill ">
-                        @foreach (var cartItem in ShoppingCarts)
-                        {
-                            <div class="card mb-3 bg-dark bg-gradient text-white">
-                                <div class="row g-0 align-items-center">
-                                    <div class="col-4">
-                                        <img src="@(cartItem.Product.ImageUrl ?? "/images/default.png")" class="img-fluid rounded-start" alt="ProductImage">
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">@cartItem.Product.Name</h5>
-                                            <p class="card-text">
-                                                <strong>Price:</strong> @cartItem.Product.Price.ToString("C") <br />
-                                                <strong>Total:</strong> @((cartItem.Product.Price * cartItem.Count).ToString("C"))
-                                            </p>
-                                            <div class="d-flex justify-content-between align-items-center flex-wrap">
-                                                <div class="input-group input-group-sm mb-2" style="width: 120px;">
-                                                    <button @onclick="()=>UpdateCartItem(cartItem.ProductId, -1)" class="btn btn-outline-secondary" type="button">
-                                                        <i class="bi bi-dash-circle-fill"></i>
-                                                    </button>
-                                                    <input type="text" class="form-control text-center" value="@cartItem.Count" readonly />
-                                                    <button @onclick="()=>UpdateCartItem(cartItem.ProductId, 1)" class="btn btn-outline-secondary" type="button">
-                                                        <i class="bi bi-plus-circle-fill"></i>
-                                                    </button>
+        @if (ShoppingCarts.Any())
+        {
+            <div class="row justify-content-center align-items-start g-4">
+                <div class="col-lg-6 col-md-6 col-sm-12 d-flex mb-4">
+                    <div class="card shadow border-0 bg-dark bg-gradient text-white d-flex flex-column mb-2" style="flex: 1;">
+                        <div class="card-header text-center bg-black bg-gradient">
+                            <h4 class="text-success mb-4">Cart Summary</h4>
+                        </div>
+                        <div class="card-body flex-fill">
+                            @foreach (var cartItem in ShoppingCarts)
+                            {
+                                <div class="card mb-3 bg-dark bg-gradient text-white">
+                                    <div class="row g-0 align-items-center">
+                                        <div class="col-4">
+                                            <img src="@(cartItem.Product.ImageUrl ?? "/images/default.png")" class="img-fluid rounded-start" alt="ProductImage">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">@cartItem.Product.Name</h5>
+                                                <p class="card-text">
+                                                    <strong>Price:</strong> @cartItem.Product.Price.ToString("C") <br />
+                                                    <strong>Total:</strong> @((cartItem.Product.Price * cartItem.Count).ToString("C"))
+                                                </p>
+                                                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                                    <div class="input-group input-group-sm mb-2" style="width: 120px;">
+                                                        <button @onclick="()=>UpdateCartItem(cartItem.ProductId, -1)" class="btn btn-outline-secondary" type="button">
+                                                            <i class="bi bi-dash-circle-fill"></i>
+                                                        </button>
+                                                        <input type="text" class="form-control text-center" value="@cartItem.Count" readonly />
+                                                        <button @onclick="()=>UpdateCartItem(cartItem.ProductId, 1)" class="btn btn-outline-secondary" type="button">
+                                                            <i class="bi bi-plus-circle-fill"></i>
+                                                        </button>
+                                                    </div>
+                                                    <button @onclick="() => HandleItemRemoveConfirmation(cartItem.ProductId)" class="btn btn-danger btn-sm">Remove</button>
                                                 </div>
-                                                <button @onclick="() => HandleItemRemoveConfirmation(cartItem.ProductId)" class="btn btn-danger btn-sm">Remove</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-lg-6 col-md-6 col-sm-12 d-flex mb-4">
-                <div class="card shadow border-0 bg-dark bg-gradient text-white d-flex flex-column" style="flex: 1;">
-                    <div class="card-header text-center bg-black bg-gradient">
-                        <h4 class="text-success mb-4">Pickup Details</h4>
-                    </div>
-                    <EditForm Model="OrderHeader" FormName="CartForm" OnValidSubmit="ProcessOrderCreation">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
-                        <div class="card-body flex-fill">
+                <div class="col-lg-6 col-md-6 col-sm-12 d-flex mb-4">
+                    <div class="card shadow border-0 bg-dark bg-gradient text-white d-flex flex-column" style="flex: 1;">
+                        <div class="card-header text-center bg-black bg-gradient">
+                            <h4 class="text-success mb-4">Pickup Details</h4>
+                        </div>
+                        <EditForm Model="OrderHeader" FormName="CartForm" OnValidSubmit="ProcessOrderCreation">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+                            <div class="card-body flex-fill">
+                                <div class="form-floating mb-3 text-dark">
+                                    <InputText @bind-Value="@OrderHeader.Name" class="form-control" id="name" placeholder="Name" />
+                                    <label for="name">Name</label>
+                                    <ValidationMessage For="@(() => OrderHeader.Name)" />
+                                </div>
+                                <div class="form-floating mb-3 text-dark">
+                                    <InputText @bind-Value="@OrderHeader.Email" class="form-control" id="email" placeholder="Email" />
+                                    <label for="email">Email</label>
+                                    <ValidationMessage For="@(() => OrderHeader.Email)" />
+                                </div>
+                                <div class="form-floating mb-3 text-dark">
+                                    <InputText @bind-Value="@OrderHeader.PhoneNumber" class="form-control" id="phone" placeholder="Phone" />
+                                    <label for="phone">Phone</label>
+                                    <ValidationMessage For="@(() => OrderHeader.PhoneNumber)" />
+                                </div>
 
-                            <div class="form-floating mb-3 text-dark">
-                                <label for="name">Name</label>
-                                <InputText @bind-Value="@OrderHeader.Name" type="text" class="form-control" id="name" placeholder="name" />
-                                <ValidationMessage For="@(()=>OrderHeader.Name)" />
-                            </div>
-                            <div class="form-floating mb-3 text-dark">
-                                <label for="email">Email</label>
-                                <InputText @bind-Value="@OrderHeader.Email" type="text" class="form-control" id="email" placeholder="email" />
-                                <ValidationMessage For="@(()=>OrderHeader.Email)" />
-                            </div>
-                            <div class="form-floating mb-3 text-dark">
-                                <label for="phone">Phone</label>
-                                <InputText @bind-Value="@OrderHeader.PhoneNumber" type="text" class="form-control" id="phone" placeholder="phone" />
-                                <ValidationMessage For="@(()=>OrderHeader.PhoneNumber)" />
-                            </div>
-
-
-                            <div class="card mt-4 bg-light">
-                                <div class="card-body">
-                                    <h4>Grand Total: @OrderHeader.OrderTotal.ToString("C")</h4>
-                                    <h4>No. of Items: @TotalItems</h4>
+                                <div class="card mt-4 bg-light">
+                                    <div class="card-body">
+                                        <h4>Grand Total: @OrderHeader.OrderTotal.ToString("C")</h4>
+                                        <h4>No. of Items: @TotalItems</h4>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="card-footer text-center">
-                            <button type="submit" class="btn btn-secondary w-100">
-                                Looks Good? Place Order!
-                            </button>
-                        </div>
-                    </EditForm>
+                            <div class="card-footer text-center">
+                                <button type="submit" class="btn btn-secondary w-100">
+                                    Looks Good? Place Order!
+                                </button>
+                            </div>
+                        </EditForm>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="alert alert-warning text-center" role="alert">
+                Your Cart is empty.
+            </div>
+        }
     </div>
 }
 
@@ -119,6 +126,14 @@ else
     public OrderHeader OrderHeader { get; set; } = new OrderHeader();
     private int TotalItems { get; set; } = 0;
     private int itemToRemoveId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        OrderHeader.Email = user.FindFirst(u => u.Type.Contains("email"))?.Value;
+        OrderHeader.UserId = user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -134,7 +149,16 @@ else
     {
         var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        ShoppingCarts = await _shoppingCartRepository.GetAllAsync(user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value);
+        ShoppingCarts = await _shoppingCartRepository.GetAllAsync(OrderHeader.UserId);
+
+        OrderHeader.OrderTotal = 0;
+        TotalItems = 0;
+        foreach (var cart in ShoppingCarts)
+        {
+            OrderHeader.OrderTotal += (Convert.ToDouble(cart.Product.Price) * cart.Count);
+            TotalItems += cart.Count;
+        }
+        OrderHeader.OrderTotal = Math.Round(OrderHeader.OrderTotal, 2);
     }
 
     private async Task UpdateCartItem(int productId, int updateBy)
@@ -145,7 +169,7 @@ else
 
         if (authenticated)
         {
-            var result = await _shoppingCartRepository.UpdateCartAsync(user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value, productId, updateBy);
+            var result = await _shoppingCartRepository.UpdateCartAsync(OrderHeader.UserId, productId, updateBy);
             await LoadCart();
 
             if (result)
@@ -171,7 +195,7 @@ else
         {
             var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
-            var result = await _shoppingCartRepository.UpdateCartAsync(user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value, itemToRemoveId, -10000);
+            var result = await _shoppingCartRepository.UpdateCartAsync(OrderHeader.UserId, itemToRemoveId, -10000);
             await LoadCart();
 
             if (result)
@@ -188,6 +212,6 @@ else
 
     private async Task ProcessOrderCreation()
     {
-
+        // Implementation for processing the order creation
     }
 }
