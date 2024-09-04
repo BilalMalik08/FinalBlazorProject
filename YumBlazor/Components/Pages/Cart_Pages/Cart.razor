@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @inject AuthenticationStateProvider _AuthenticationStateProvider
 @inject IShoppingCartRepository _shoppingCartRepository
+@inject IJSRuntime _JS
 @attribute [Authorize]
 
 <title>Cart</title>
@@ -38,15 +39,15 @@ else
                                             </p>
                                             <div class="d-flex justify-content-between align-items-center flex-wrap">
                                                 <div class="input-group input-group-sm mb-2" style="width: 120px;">
-                                                    <button class="btn btn-outline-secondary" type="button">
+                                                    <button @onclick="()=>UpdateCartItem(cartItem.ProductId, 1)" class="btn btn-outline-secondary" type="button">
                                                         <i class="bi bi-dash-circle-fill"></i>
                                                     </button>
                                                     <input type="text" class="form-control text-center" value="@cartItem.Count" readonly />
-                                                    <button class="btn btn-outline-secondary" type="button">
+                                                    <button @onclick="()=>UpdateCartItem(cartItem.ProductId, 1)" class="btn btn-outline-secondary" type="button">
                                                         <i class="bi bi-plus-circle-fill"></i>
                                                     </button>
                                                 </div>
-                                                <button class="btn btn-danger btn-sm">Remove</button>
+                                                <button @onclick="()=>UpdateCartItem(cartItem.ProductId, -10000)" class="btn btn-danger btn-sm">Remove</button>
                                             </div>
                                         </div>
                                     </div>
@@ -114,5 +115,28 @@ else
         var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         ShoppingCarts = await _shoppingCartRepository.GetAllAsync(user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value);
+    }
+
+    private async Task UpdateCartItem(int productId, int updateBy)
+    {
+        var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var authenticated = user.Identity is not null && user.Identity.IsAuthenticated;
+
+       
+       
+            var result = await
+            _shoppingCartRepository.UpdateCartAsync(user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value, productId, updateBy);
+            await LoadCart();
+
+            if (result)
+            {
+                _JS.ToastrSuccess("Another product added to cart successfully.");
+            }
+            else
+            {
+                _JS.ToastrError("Failed to add another product.");
+            }
+        
     }
 }
