@@ -70,33 +70,42 @@ else
                     <div class="card-header text-center bg-black bg-gradient">
                         <h4 class="text-success mb-4">Pickup Details</h4>
                     </div>
-                    <div class="card-body flex-fill">
-                        <form>
+                    <EditForm Model="OrderHeader" FormName="CartForm" OnValidSubmit="ProcessOrderCreation">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div class="card-body flex-fill">
+
                             <div class="form-floating mb-3 text-dark">
-                                <input type="text" class="form-control" id="name" placeholder="name" />
                                 <label for="name">Name</label>
+                                <InputText @bind-Value="@OrderHeader.Name" type="text" class="form-control" id="name" placeholder="name" />
+                                <ValidationMessage For="@(()=>OrderHeader.Name)" />
                             </div>
                             <div class="form-floating mb-3 text-dark">
-                                <input type="text" class="form-control" id="email" placeholder="email" />
                                 <label for="email">Email</label>
+                                <InputText @bind-Value="@OrderHeader.Email" type="text" class="form-control" id="email" placeholder="email" />
+                                <ValidationMessage For="@(()=>OrderHeader.Email)" />
                             </div>
                             <div class="form-floating mb-3 text-dark">
-                                <input type="text" class="form-control" id="phone" placeholder="phone" />
                                 <label for="phone">Phone</label>
+                                <InputText @bind-Value="@OrderHeader.PhoneNumber" type="text" class="form-control" id="phone" placeholder="phone" />
+                                <ValidationMessage For="@(()=>OrderHeader.PhoneNumber)" />
                             </div>
-                        </form>
-                        <div class="card mt-4 bg-light">
-                            <div class="card-body">
-                                <h4>Grand Total: --$$--</h4>
-                                <h4>No. of Items: --COUNT--</h4>
+
+
+                            <div class="card mt-4 bg-light">
+                                <div class="card-body">
+                                    <h4>Grand Total: @OrderHeader.OrderTotal.ToString("C")</h4>
+                                    <h4>No. of Items: @TotalItems</h4>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <button class="btn btn-secondary w-100">
-                            Looks Good? Place Order!
-                        </button>
-                    </div>
+
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-secondary w-100">
+                                Looks Good? Place Order!
+                            </button>
+                        </div>
+                    </EditForm>
                 </div>
             </div>
         </div>
@@ -106,6 +115,9 @@ else
 @code {
     private IEnumerable<ShoppingCart> ShoppingCarts = new List<ShoppingCart>();
     private bool isProcessing { get; set; } = true;
+    [SupplyParameterFromForm]
+    public OrderHeader OrderHeader { get; set; } = new OrderHeader();
+    private int TotalItems { get; set; } = 0;
     private int itemToRemoveId { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -172,5 +184,10 @@ else
             }
         }
         _JS.InvokeVoidAsync("HideConfirmationModal");
+    }
+
+    private async Task ProcessOrderCreation()
+    {
+
     }
 }
