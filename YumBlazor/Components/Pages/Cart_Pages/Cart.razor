@@ -8,121 +8,111 @@
 
 @if (isProcessing)
 {
-	<div class="d-flex justify-content-center align-items-center" style="height:85vh">
-		<img src="/images/loading.gif" alt="loading" />
-	</div>
+    <div class="d-flex justify-content-center align-items-center" style="height:85vh">
+        <img src="/images/loading.gif" alt="loading" class="img-fluid" />
+    </div>
 }
 else
 {
-	<div class="row w-100">
-		<div class="col-lg-6 col-12">
-			<div class="container p-4 m-2">
-				<h4 class="text-center text-success display-6">
-					Cart Summary
-				</h4>
+    <div class="container my-3">
+        <div class="row justify-content-center align-items-start g-4">
+            <div class="col-lg-6 col-md-6 col-sm-12 d-flex mb-4">
+                <div class="card shadow border-0 bg-dark bg-gradient text-white d-flex flex-column mb-2" style="flex: 1;">
+                    <div class="card-header text-center bg-black bg-gradient">
+                        <h4 class="text-success mb-4">Cart Summary</h4>
+                    </div>
+                    <div class="card-body flex-fill ">
+                        @foreach (var cartItem in ShoppingCarts)
+                        {
+                            <div class="card mb-3 bg-dark bg-gradient text-white">
+                                <div class="row g-0 align-items-center">
+                                    <div class="col-4">
+                                        <img src="@(cartItem.Product.ImageUrl ?? "/images/default.png")" class="img-fluid rounded-start" alt="ProductImage">
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@cartItem.Product.Name</h5>
+                                            <p class="card-text">
+                                                <strong>Price:</strong> @cartItem.Product.Price.ToString("C") <br />
+                                                <strong>Total:</strong> @((cartItem.Product.Price * cartItem.Count).ToString("C"))
+                                            </p>
+                                            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                                <div class="input-group input-group-sm mb-2" style="width: 120px;">
+                                                    <button class="btn btn-outline-secondary" type="button">
+                                                        <i class="bi bi-dash-circle-fill"></i>
+                                                    </button>
+                                                    <input type="text" class="form-control text-center" value="@cartItem.Count" readonly />
+                                                    <button class="btn btn-outline-secondary" type="button">
+                                                        <i class="bi bi-plus-circle-fill"></i>
+                                                    </button>
+                                                </div>
+                                                <button class="btn btn-danger btn-sm">Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
 
-
-				@foreach(var cartItem in ShoppingCarts)
-				{
-					<div class="d-flex p-2 m-2">
-						<div class="card flex-row w-100">
-							<img class="card-img-left" style="width: 120px;" src="@(cartItem.Product.ImageUrl ?? "/images/default.png")" alt="ProductImage">
-							<div class="card-body">
-								<div class="d-flex justify-content-between align-items-center">
-									<h4 class="">
-										@cartItem.Product.Name
-									</h4>
-									<h4>
-										@cartItem.Product.Price.ToString("C");
-									</h4>
-								</div>
-								<div class="flex-fill">
-									<h4 class="text-danger">
-										@((cartItem.Product.Price * cartItem.Count).ToString("C"));
-									</h4>
-								</div>
-								<div class="d-flex justify-content-between align-items-center">
-									<div class="d-flex justify-content-between g-0">
-										<span>
-											<i class="bi bi-dash-circle-fill btn text-secondary"></i>
-										</span>
-										<span class="ml-1 me-1">
-											<b class="lead">@cartItem.Count</b>
-										</span>
-										<span>
-											<i class="bi bi-plus-circle-fill btn text-secondary"></i>
-										</span>
-									</div>
-									<button class="btn btn-danger">Remove</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				}
-
-			</div>
-		</div>
-		<div class="col-lg-6 col-12 p-4">
-			<div class="card">
-				<div class="card-header text-success text-center display-6">
-					Pickup Details
-				</div>
-				<div class="card-body">
-					<form>
-						<div class="form-group">
-							<label>Name</label>
-							<input type="text" class="form-control" />
-						</div>
-						<div class="form-group">
-							<label>Email</label>
-							<input type="text" class="form-control" />
-						</div>
-						<div class="form-group">
-							<label>Phone</label>
-							<input type="text" class="form-control" />
-						</div>
-
-					</form>
-					<div class="card mt-4 bg-light">
-						<div class="card-body">
-							<h4>
-								Grand Total: --$$--
-							</h4>
-							<h4>
-								No. of Items: --COUNT--
-							</h4>
-						</div>
-
-					</div>
-				</div>
-
-				<button class="btn btn-success m-4">
-					Looks Good? Place Order!
-				</button>
-			</div>
-		</div>
-	</div>
+            <div class="col-lg-6 col-md-6 col-sm-12 d-flex mb-4">
+                <div class="card shadow border-0 bg-dark bg-gradient text-white d-flex flex-column" style="flex: 1;">
+                    <div class="card-header text-center bg-black bg-gradient">
+                        <h4 class="text-success mb-4">Pickup Details</h4>
+                    </div>
+                    <div class="card-body flex-fill">
+                        <form>
+                            <div class="form-floating mb-3 text-dark">
+                                <input type="text" class="form-control" id="name" placeholder="name" />
+                                <label for="name">Name</label>
+                            </div>
+                            <div class="form-floating mb-3 text-dark">
+                                <input type="text" class="form-control" id="email" placeholder="email" />
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="form-floating mb-3 text-dark">
+                                <input type="text" class="form-control" id="phone" placeholder="phone" />
+                                <label for="phone">Phone</label>
+                            </div>
+                        </form>
+                        <div class="card mt-4 bg-light">
+                            <div class="card-body">
+                                <h4>Grand Total: --$$--</h4>
+                                <h4>No. of Items: --COUNT--</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button class="btn btn-secondary w-100">
+                            Looks Good? Place Order!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
-
 @code {
-	private IEnumerable<ShoppingCart> ShoppingCarts = new List<ShoppingCart>();
-	private bool isProcessing { get; set; } = true;
+    private IEnumerable<ShoppingCart> ShoppingCarts = new List<ShoppingCart>();
+    private bool isProcessing { get; set; } = true;
 
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (firstRender)
-		{
-			await LoadCart();
-			isProcessing = false;
-			StateHasChanged();
-		}
-	}
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadCart();
+            isProcessing = false;
+            StateHasChanged();
+        }
+    }
 
-	private async Task LoadCart()
-	{
-		var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
-		var user = authState.User;
-		ShoppingCarts = await _shoppingCartRepository.GetAllAsync(user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value);
-	}
+    private async Task LoadCart()
+    {
+        var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        ShoppingCarts = await _shoppingCartRepository.GetAllAsync(user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value);
+    }
 }
