@@ -1,6 +1,10 @@
 ﻿@page "/"
+@inject AuthenticationStateProvider _AuthenticationStateProvider
+@inject IJSRuntime _JS
+@inject NavigationManager _NavigationManager
 @inject IProductRepository _productRepository
 @inject ICategoryRepository _categoryRepository
+@inject IShoppingCartRepository _shoppingCartRepository
 <link rel="stylesheet" href="css/home.css" />
 
 <PageTitle>Home</PageTitle>
@@ -65,7 +69,9 @@ else
                                     <h5 class="card-title text-center lead text-white">@Prod.Name</h5>
                                     <p class="card-text mt-2">@((MarkupString)Prod.Description)</p>
                                     <h4 class="text-center">
-                                        <button class="btn btn-secondary AddToCart-BTN w-100" style="font-size: 1rem;">Add to cart</button>
+                                      <div class="m-lg-auto p-2" @onclick="()=>AddOrderItem(Prod)">
+                                            <button class="btn btn-secondary AddToCart-BTN w-100" style="font-size: 1rem;">Add to cart <i class="bi bi-cart4 "></i></button>
+                                      </div>
                                     </h4>
                                 </div>
                             </div>
@@ -134,5 +140,31 @@ else
     private string GetActiveTabClass(int categoryId)
     {
         return categoryId == _selectedCategoryId ? "nav-link active" : "nav-link";
+    }
+
+    private async Task AddOrderItem(Product product)
+    {
+        var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var authenticated = user.Identity is not null && user.Identity.IsAuthenticated;
+
+        if (!authenticated)
+        {
+            _NavigationManager.NavigateTo("Account/Logic");
+        }
+        else
+        {
+            var result = await 
+            _shoppingCartRepository.UpdateCartAsync(user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value, product.Id, 1);
+
+            if (result)
+            {
+                _JS.ToastrSuccess("Product added to cart successfully.");
+            }
+            else
+            {
+                _JS.ToastrError("Failed to add product.");
+            }
+        }
     }
 }
