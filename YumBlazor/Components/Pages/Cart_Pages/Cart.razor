@@ -2,6 +2,8 @@
 @using Microsoft.AspNetCore.Authorization
 @inject AuthenticationStateProvider _AuthenticationStateProvider
 @inject IShoppingCartRepository _shoppingCartRepository
+@inject IOrderRepository _orderRepository
+@inject NavigationManager _NavigationManager
 @inject IJSRuntime _JS
 @attribute [Authorize]
 
@@ -213,6 +215,11 @@ else
 
     private async Task ProcessOrderCreation()
     {
-        // Implementation for processing the order creation
+        isProcessing = true;
+        await Task.Yield();
+        OrderHeader.OrderDetails = SD.ConvertShoppingCartListToOrderDetail(ShoppingCarts.ToList());
+
+        await _orderRepository.CreateAsync(OrderHeader);
+        _NavigationManager.NavigateTo($"/Order/Confirmation/{OrderHeader.Id}");
     }
 }
