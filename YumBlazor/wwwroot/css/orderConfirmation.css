@@ -1,0 +1,68 @@
+﻿/* General card styling */
+.OrderConfirmation-Card {
+    margin: 10px auto;
+}
+
+/* Card Header Styling */
+.OrderConfirmation-Card-Header h2 {
+    font-size: 2rem;
+    color: #28a745; /* Success Green */
+    padding: 15px;
+}
+
+/* Card Body Styling */
+.OrderConfirmation-Card-Body p {
+    font-size: 1.25rem; /* Adjusted font size */
+}
+
+.OrderConfirmation-Img {
+    max-width: 40%;
+}
+
+/* Card Footer Styling */
+.card-footer p {
+    font-size: 1.1rem;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    /* Adjust margins, padding, and font size for mobile */
+    .OrderConfirmation-Card {
+        margin: 10px;
+    }
+
+    .OrderConfirmation-Card-Header h2 {
+        font-size: 1.5rem; /* Smaller font for mobile */
+    }
+
+    .OrderConfirmation-Card-Body p {
+        font-size: 1rem; /* Adjust text size for smaller screens */
+    }
+
+    .OrderConfirmation-Img {
+        max-width: 80%; /* Larger image for mobile devices */
+    }
+
+    .card-footer p {
+        font-size: 0.9rem; /* Smaller text in footer for mobile */
+    }
+}
+
+/* Adjustments for tablet devices */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .OrderConfirmation-Card {
+        margin: 15px auto;
+    }
+
+    .OrderConfirmation-Card-Header h2 {
+        font-size: 1.75rem; /* Slightly larger for tablets */
+    }
+
+    .OrderConfirmation-Img {
+        max-width: 60%;
+    }
+
+    .card-footer p {
+        font-size: 1rem;
+    }
+}
