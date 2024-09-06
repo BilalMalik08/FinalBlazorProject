@@ -1,0 +1,90 @@
+﻿.OrderList-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+    .OrderList-table th, .OrderList-table td {
+        padding: 0.75rem;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .OrderList-table th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    .OrderList-table td {
+        border-top: 1px solid #dee2e6;
+    }
+
+    .OrderList-table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    /* Reduce column widths */
+    .OrderList-table .price-col {
+        width: 12%;
+    }
+
+    .OrderList-table .special-tag-col {
+        width: 18%;
+    }
+
+    .OrderList-table .category-col {
+        width: 18%;
+    }
+
+/* Responsive Styles */
+@media (max-width: 992px) { /* Tablets */
+    .OrderList-BUTTON {
+        width: 75%;
+    }
+
+    .OrderList-CARD-BODY {
+        padding: 2rem;
+    }
+
+    .OrderList-HEADING {
+        font-size: 1.75rem;
+    }
+
+    .OrderList-table {
+        font-size: 0.875rem;
+        overflow-x: auto;
+        display: block;
+    }
+}
+
+@media (max-width: 768px) { /* Mobiles */
+    .OrderList-BUTTON-Div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .OrderList-CARD-BODY {
+        padding: 1rem;
+    }
+
+    .OrderList-HEADING {
+        font-size: 1.5rem;
+    }
+
+    .OrderList-table {
+        font-size: 0.75rem;
+        overflow-x: auto;
+        display: block;
+    }
+
+        .OrderList-table th, .OrderList-table td {
+            padding: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .OrderList-table th, .OrderList-table td {
+            white-space: nowrap;
+        }
+}
