@@ -49,8 +49,7 @@ else
                                 <td>@obj.OrderDate</td>
                                 <td>@obj.Status</td>
                                 <td>
-                                    <a href="@($"product/update/{obj.Id}")" class="btn btn-secondary mb-1"><i class="bi bi-pencil-square"></i> Edit</a>
-                                    <a class="btn btn-danger mb-1"><i class="bi bi-trash"></i> Delete</a>
+                                    <a href="@($"order/details/{obj.Id}")" class="btn btn-secondary"><i class="bi bi-info-circle"></i> Details</a>
                                 </td>
                             </tr>
                         }
