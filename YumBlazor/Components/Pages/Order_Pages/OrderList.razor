@@ -9,8 +9,8 @@
 
 @if (isProcessing)
 {
-    <div class="d-flex justify-content-center align-items-center min-vh-100">
-        <img src="/images/loading.gif" alt="loading" />
+    <div class="d-flex justify-content-center align-items-center" style="height:85vh">
+        <img src="/images/loading.gif" alt="loading" class="img-fluid" />
     </div>
 }
 else
@@ -65,17 +65,22 @@ else
    
     private IEnumerable<OrderHeader> OrderHeaders = new List<OrderHeader>();
 
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await LoadOrderList();
+            await LoadOrderHeader();
             isProcessing = false;
             StateHasChanged();
         }
     }
 
-    private async Task LoadOrderList()
+    private async Task LoadOrderHeader()
     {
         OrderHeaders = await _orderRepository.GetAllAsync();
     }

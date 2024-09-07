@@ -1,0 +1,100 @@
+﻿@page "/Order/Details/{Id:int}"
+@inject IOrderRepository _orderRepository
+@inject NavigationManager _NavigationManager
+<link rel="stylesheet" href="/css/orderDetails.css" />
+
+<PageTitle>Order Details</PageTitle>
+
+@if (isProcessing)
+{
+    <div class="d-flex justify-content-center align-items-center" style="height:85vh">
+        <img src="/images/loading.gif" alt="loading" class="img-fluid" />
+    </div>
+}
+else
+{
+    <div class="container my-3 p-3">
+        <div class="card bg-dark bg-gradient text-white shadow border-0">
+            <div class="card-header text-center bg-black bg-gradient text-success">
+                <h4 class="my-2">ORDER DETAILS</h4>
+            </div>
+
+            <hr />
+            <div class="px-3">
+                <p><strong>Order Id:</strong> @OrderHeader.Id</p>
+                <p><strong>Name:</strong> @OrderHeader.Name</p>
+                <p><strong>Email:</strong> @OrderHeader.Email</p>
+                <p><strong>Phone:</strong> @OrderHeader.PhoneNumber</p>
+                <p><strong>Order Status:</strong> @OrderHeader.Status</p>
+            </div>
+            <hr />
+            <div class="card-body">
+                <h4 class="text-success">Menu Items</h4>
+                @if (OrderHeader.OrderDetails != null && OrderHeader.OrderDetails.Any())
+                {
+                    @foreach (var detail in OrderHeader.OrderDetails)
+                    {
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <p class="mb-0">-- @detail.ProductName</p>
+                            <p class="mb-0">Price x Count = @detail.Price * @detail.Count</p>
+                        </div>
+                    }
+                }
+                <div class="mt-2">
+                    <strong>TOTAL: @OrderHeader.OrderTotal.ToString("C")</strong>
+                </div>
+                <hr />
+                <h4 class="text-success text-end">Order Total: @OrderHeader.OrderTotal.ToString("C")</h4>
+                <hr />
+
+                <div class="row">
+                    <div class="col-12 d-flex flex-column flex-md-row align-items-center justify-content-between">
+                        <a href="Order/List" class="btn btn-secondary m-1 orderDetails-BTN">
+                            <i class="bi bi-arrow-left"></i> Back to Orders
+                        </a>
+                        <div class="d-flex orderDetails-BTN-Div">
+                            <button class="btn btn-danger m-1 orderDetails-BTN">
+                                <i class="bi bi-x-circle"></i> Cancelled
+                            </button>
+                            <button class="btn btn-primary m-1 orderDetails-BTN">
+                                <i class="bi bi-check"></i> Ready for Pickup
+                            </button>
+                            <button class="btn btn-success m-1 orderDetails-BTN">
+                                <i class="bi bi-check-all"></i> Completed
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool isProcessing { get; set; } = true;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private OrderHeader? OrderHeader = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadOrder();
+            isProcessing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadOrder()
+    {
+        OrderHeader = await _orderRepository.GetAsync(Id);
+    }
+}

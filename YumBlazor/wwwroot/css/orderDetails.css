@@ -1,0 +1,106 @@
+﻿
+
+.orderDetails-Card {
+    background-color: #343a40;
+    color: white;
+    padding: 2rem;
+
+}
+
+.orderDetails-CardHeader {
+    background: linear-gradient(135deg, #000000, #343a40);
+    color: #28a745;
+
+}
+
+.orderDetails-Divider {
+    background-color: #ffffff;
+}
+
+.orderDetails-BTN {
+    width: 100%;
+}
+
+.orderDetails-BTN-Div {
+    display: flex;
+    flex-direction: row; /* Default direction for larger screens */
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Responsive Styles */
+@media (min-width: 768px) {
+    .orderDetails-Card {
+        padding: 2rem;
+    }
+
+    .orderDetails-CardHeader h4 {
+        font-size: 1.5rem;
+    }
+
+    .orderDetails-BTN {
+        width: auto;
+    }
+
+    .orderDetails-CardBody p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 992px) { /* Tablets */
+    .orderDetails-Card {
+        padding: 1.5rem;
+    }
+
+    .orderDetails-CardHeader h4 {
+        font-size: 1.25rem;
+    }
+
+    .orderDetails-CardBody p {
+        font-size: 0.9rem;
+    }
+
+    .orderDetails-BTN-Div {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .orderDetails-BTN {
+        width: 25%;
+        margin-top: 1.5rem; 
+    }
+}
+
+@media (max-width: 768px) { /* Mobiles */
+    .orderDetails-Card {
+        padding: 1rem;
+    }
+
+    .orderDetails-CardHeader h4 {
+        font-size: 1.25rem;
+    }
+
+    .orderDetails-CardBody p {
+        font-size: 0.875rem;
+    }
+
+    .orderDetails-BTN-Div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .orderDetails-BTN {
+        width: 100%;
+        margin-top: 0.5rem; 
+    }
+
+    .orderDetails-Card div.row {
+        flex-direction: column;
+    }
+
+    .orderDetails-Card .btn {
+        margin-bottom: 0.5rem;
+    }
+}
