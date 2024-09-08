@@ -1,6 +1,7 @@
 ﻿@page "/Order/List"
 @inject IOrderRepository _orderRepository
 @inject NavigationManager _NavigationManager
+@attribute [Authorize]
 <link rel="stylesheet" href="/css/orderList.css" />
 
 <PageTitle>Order List</PageTitle>
@@ -62,8 +63,15 @@ else
 
 @code {
     private bool isProcessing { get; set; } = true;
-   
+
     private IEnumerable<OrderHeader> OrderHeaders = new List<OrderHeader>();
+
+    private bool? IsAdmin { get; set; }
+
+    private string? UserId { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -82,6 +90,29 @@ else
 
     private async Task LoadOrderHeader()
     {
-        OrderHeaders = await _orderRepository.GetAllAsync();
+        isProcessing = true;
+        StateHasChanged();
+        await CheckAuthorization();
+        if(IsAdmin == true)
+        {
+            OrderHeaders = await _orderRepository.GetAllAsync();
+        }
+        else
+        {
+            OrderHeaders = await _orderRepository.GetAllAsync(UserId);
+        }
+        isProcessing = false;
+    }
+
+    private async Task CheckAuthorization()
+    {
+        if(AuthenticationState is not null)
+        {
+            var authState = await AuthenticationState;
+            var user = authState?.User;
+
+            IsAdmin = user?.IsInRole(SD.Role_Admin);
+            UserId = user?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        }
     }
 }
