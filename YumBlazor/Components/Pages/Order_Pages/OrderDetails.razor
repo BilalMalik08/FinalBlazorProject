@@ -1,6 +1,7 @@
 ﻿@page "/Order/Details/{Id:int}"
 @inject IOrderRepository _orderRepository
 @inject NavigationManager _NavigationManager
+@inject IJSRuntime _JS
 <link rel="stylesheet" href="/css/orderDetails.css" />
 
 <PageTitle>Order Details</PageTitle>
@@ -53,15 +54,24 @@ else
                             <i class="bi bi-arrow-left"></i> Back to Orders
                         </a>
                         <div class="d-flex orderDetails-BTN-Div">
-                            <button class="btn btn-danger m-1 orderDetails-BTN">
-                                <i class="bi bi-x-circle"></i> Cancelled
-                            </button>
-                            <button class="btn btn-primary m-1 orderDetails-BTN">
-                                <i class="bi bi-check"></i> Ready for Pickup
-                            </button>
-                            <button class="btn btn-success m-1 orderDetails-BTN">
-                                <i class="bi bi-check-all"></i> Completed
-                            </button>
+                            @if (OrderHeader.Status != SD.StatusCancelled && OrderHeader.Status != SD.StatusCompleted)
+                           {
+                                <button @onclick="()=>UpdateStatus(SD.StatusCancelled)" class="btn btn-danger m-1 orderDetails-BTN">
+                                    <i class="bi bi-x-circle"></i> Cancel
+                                </button>
+                                @if (OrderHeader.Status == SD.StatusPending)
+                                {
+                                    <button @onclick="()=>UpdateStatus(SD.StatusReadyForPickUp)" class="btn btn-primary m-1 orderDetails-BTN">
+                                        <i class="bi bi-check"></i> Ready for Pickup
+                                    </button>
+                                }
+                                @if (OrderHeader.Status == SD.StatusReadyForPickUp)
+                                {
+                                    <button @onclick="()=>UpdateStatus(SD.StatusCompleted)" class="btn btn-success m-1 orderDetails-BTN">
+                                        <i class="bi bi-check-all"></i> Completed
+                                    </button>
+                                }
+                            }
                         </div>
                     </div>
                 </div>
@@ -96,5 +106,11 @@ else
     private async Task LoadOrder()
     {
         OrderHeader = await _orderRepository.GetAsync(Id);
+    }
+
+    private async Task UpdateStatus(string newStatus)
+    {
+        await _orderRepository.UpdateStatusAsync(Id, newStatus);
+        _JS?.ToastrSuccess("Status updated successfully to " + newStatus + ".");
     }
 }
