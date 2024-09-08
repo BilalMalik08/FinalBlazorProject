@@ -32,11 +32,11 @@ else
                 <h4 class="text-success">Menu Items</h4>
                 @if (OrderHeader.OrderDetails != null && OrderHeader.OrderDetails.Any())
                 {
-                    @foreach (var detail in OrderHeader.OrderDetails)
+                    @foreach (var details in OrderHeader.OrderDetails)
                     {
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <p class="mb-0">-- @detail.ProductName</p>
-                            <p class="mb-0">Price x Count = @detail.Price * @detail.Count</p>
+                            <p class="mb-0">&nbsp; -- @details.ProductName</p>
+                            <p class="mb-0">@details.Price.ToString("C") x @details.Count = @((details.Price * details.Count).ToString("C"))</p>
                         </div>
                     }
                 }
