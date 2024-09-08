@@ -2,6 +2,7 @@
 @inject IOrderRepository _orderRepository
 @inject NavigationManager _NavigationManager
 @inject IJSRuntime _JS
+@inject AuthenticationStateProvider _AuthenticationStateProvider
 <link rel="stylesheet" href="/css/orderDetails.css" />
 
 <PageTitle>Order Details</PageTitle>
@@ -54,7 +55,9 @@ else
                             <i class="bi bi-arrow-left"></i> Back to Orders
                         </a>
                         <div class="d-flex orderDetails-BTN-Div">
-                            @if (OrderHeader.Status != SD.StatusCancelled && OrderHeader.Status != SD.StatusCompleted)
+                            @if (OrderHeader.Status != SD.StatusCancelled && OrderHeader.Status != SD.StatusCompleted
+                                && _AuthenticationStateProvider.GetAuthenticationStateAsync().GetAwaiter().GetResult()
+                                .User?.IsInRole(SD.Role_Admin) == true)
                            {
                                 <button @onclick="()=>UpdateStatus(SD.StatusCancelled)" class="btn btn-danger m-1 orderDetails-BTN">
                                     <i class="bi bi-x-circle"></i> Cancel
