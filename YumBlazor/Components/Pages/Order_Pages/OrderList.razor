@@ -36,7 +36,7 @@ else
                         <RadzenDataGridColumn Property="Status" Title="Status" Width="160px" TextAlign="TextAlign.Center" />
                         <RadzenDataGridColumn Title="Action" Sortable="false" Filterable="false" Width="80px" TextAlign="TextAlign.Center">
                             <Template Context="orderHeader">
-                                <RadzenButton Shade="Shade.Lighter" Text="Details" ButtonStyle="ButtonStyle.Secondary" Click="@(()=>_NavigationManager.NavigateTo($"order/details/{orderHeader.Id}"))"></RadzenButton>
+                                <RadzenButton Shade="Shade.Lighter" Text="Details" ButtonStyle="ButtonStyle.Secondary" Click="@(()=>_NavigationManager.NavigateTo($"order/details/{orderHeader.Id}"))"><i class="bi bi-exclamation-circle"></i> Details</RadzenButton>
                             </Template>
                         </RadzenDataGridColumn>
                     </Columns>
