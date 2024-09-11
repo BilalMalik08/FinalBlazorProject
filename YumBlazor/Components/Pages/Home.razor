@@ -5,6 +5,7 @@
 @inject IProductRepository _productRepository
 @inject ICategoryRepository _categoryRepository
 @inject IShoppingCartRepository _shoppingCartRepository
+@inject SharedStateService _sharedStateService
 <link rel="stylesheet" href="css/home.css" />
 
 <PageTitle>Home</PageTitle>
@@ -154,8 +155,10 @@ else
         }
         else
         {
+            var userId = user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
             var result = await 
-            _shoppingCartRepository.UpdateCartAsync(user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value, product.Id, 1);
+        _shoppingCartRepository.UpdateCartAsync(userId, product.Id, 1);
+            _sharedStateService.TotalCartCount = await _shoppingCartRepository.GetTotalCartCountAsync(userId);
 
             if (result)
             {

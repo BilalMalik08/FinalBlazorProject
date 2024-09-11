@@ -4,6 +4,7 @@
 @inject IShoppingCartRepository _shoppingCartRepository
 @inject IOrderRepository _orderRepository
 @inject NavigationManager _NavigationManager
+@inject SharedStateService _sharedStateService
 @inject IJSRuntime _JS
 @attribute [Authorize]
 
@@ -173,6 +174,7 @@ else
         if (authenticated)
         {
             var result = await _shoppingCartRepository.UpdateCartAsync(OrderHeader.UserId, productId, updateBy);
+            _sharedStateService.TotalCartCount = await _shoppingCartRepository.GetTotalCartCountAsync(OrderHeader.UserId);
             await LoadCart();
 
             if (result)
