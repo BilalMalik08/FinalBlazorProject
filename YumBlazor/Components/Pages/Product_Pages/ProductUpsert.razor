@@ -41,9 +41,11 @@ else
                     </div>
 
                     <!-- Product Description -->
-                    <div class="form-floating mb-3">
-                        <InputText @bind-Value="Product.Description" class="form-control" id="Description" placeholder="Description" />
+                    <div class="mb-3">
                         <label for="Description">Description</label>
+                        <RadzenHtmlEditor @bind-Value="Product.Description" style="height: 450px;">
+
+                        </RadzenHtmlEditor>
                         <ValidationMessage For="@(() => Product.Description)" />
                     </div>
 
@@ -200,7 +202,7 @@ else
     {
         isProcessing = true;
         var file = e.File;
-        FileInfo fileInfo = new(file.Name);
+        System.IO.FileInfo fileInfo = new(file.Name);
         var newFileName = $"{Guid.NewGuid()}.{fileInfo.Extension}";
 
         if (!Directory.Exists(_directoryPath))
